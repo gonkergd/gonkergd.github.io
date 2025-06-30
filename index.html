@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GD Ladder AI-Ness Ranking</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 How ass are your GDDL opinions?</h1>
+            <p>Rank your Geometry Dash level submissions by how different your opinions are from the community average</p>
+        </div>
+
+        <div class="card">
+            <h2>User Search</h2>
+            <div class="form-group">
+                <label for="username">Enter Username</label>
+                <input type="text" id="username" placeholder="e.g. RobTop or 12345">
+            </div>
+            <button id="searchBtn">Search User</button>
+            
+            <div id="userSelection" class="user-selection">
+                <h3>Select User:</h3>
+                <div id="userOptions"></div>
+            </div>
+        </div>
+
+        <div id="progressCard" class="card" style="display: none;">
+            <h2>Processing Submissions</h2>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <div id="progressText" class="progress-text">Fetching level data... 0/0</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Ranking Configuration</h2>
+            <div class="checkbox-group">
+                <input type="checkbox" id="useDefaults" checked>
+                <label for="useDefaults">Use Default Settings (Recommended)</label>
+            </div>
+            
+            <div id="customConfig" style="display: none;">
+                <div class="config-grid">
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="removeOutliers" checked>
+                            <label for="removeOutliers">Hide submissions that aren't significant outliers (Based on exclusion threshold)</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="excludeCount">Exclusion Threshold:</label>
+                        <input type="number" id="excludeCount" value="0.5" step="0.1" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="metric">Rank By:</label>
+                        <select id="metric">
+                            <option value="r">Rating</option>
+                            <option value="e">Enjoyment</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="comparison">Compare With:</label>
+                        <select id="comparison">
+                            <option value="avg">Average Only</option>
+                            <option value="sd">Standard Deviation Range</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="config-grid">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="includeDiff" checked>
+                        <label for="includeDiff">Include AI-Ness Score</label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="includeUserValue" checked>
+                        <label for="includeUserValue">Include Your Rating</label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="includeAvgValue" checked>
+                        <label for="includeAvgValue">Include Level Rating</label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="includeStdDev">
+                        <label for="includeStdDev">Include Standard Deviation</label>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="rankBtn" disabled>Generate Rankings</button>
+        </div>
+
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Processing submissions...</p>
+        </div>
+
+        <div id="results" class="card results">
+            <h2>Most AI Opinions Ranking</h2>
+            <button id="downloadBtn">Download Results</button>
+            <div id="rankingList"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
