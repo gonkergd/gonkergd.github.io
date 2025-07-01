@@ -1,4 +1,3 @@
-
 // Functions for interacting with GDLadder API and processing data
 async function searchUser(username) {
     try {
@@ -65,12 +64,27 @@ function calculateDifference(userValue, avgValue, stdDev, useSd) {
 function rankSubmissions(submissions, config) {
     const ranked = [];
     const metricName = config.metric === 'r' ? 'Rating' : 'Enjoyment';
+    const twoPlayerMetric = config.metric === 'r' ? 'TwoPlayerRating' : 'TwoPlayerEnjoyment';
+    const twoPlayerDeviation = 'TwoPlayerDeviation';
 
     submissions.forEach(sub => {
         const levelData = sub.Level;
-        const userValue = sub[metricName];
-        const avgValue = levelData[metricName];
-        const stdDev = levelData.Deviation || 0;
+
+        // Check for two player mode
+        let userValue, avgValue, stdDev;
+        if (
+            levelData.Meta.IsTwoPlayer &&
+            sub.IsSolo === false &&
+            levelData[twoPlayerMetric] != null
+        ) {
+            userValue = sub[metricName];
+            avgValue = levelData[twoPlayerMetric];
+            stdDev = levelData[twoPlayerDeviation] || 0;
+        } else {
+            userValue = sub[metricName];
+            avgValue = levelData[metricName];
+            stdDev = levelData.Deviation || 0;
+        }
 
         const diff = calculateDifference(userValue, avgValue, stdDev, config.use_sd);
 
@@ -81,7 +95,8 @@ function rankSubmissions(submissions, config) {
                 user_value: userValue,
                 avg_value: avgValue,
                 std_dev: stdDev,
-                diff: diff
+                diff: diff,
+                IsSolo: sub.IsSolo // <-- Add this line
             });
         }
     });
@@ -203,7 +218,6 @@ function displayResults(rankedSubmissions, config) {
 
     rankingList.innerHTML = '';
 
-    // Filter out submissions where user_value is null
     rankedSubmissions
         .filter(sub => sub != null && sub.user_value != null)
         .forEach((sub, index) => {
@@ -215,6 +229,9 @@ function displayResults(rankedSubmissions, config) {
             if (config.include_user_value && sub.user_value != null) metrics.push(`${sub.user_value} your ${metricName}`);
             if (config.include_avg_value && sub.avg_value != null) metrics.push(`${sub.avg_value.toFixed(2)} level ${metricName}`);
             if (config.include_std_dev && sub.std_dev != null) metrics.push(`${sub.std_dev.toFixed(2)} SD`);
+            // Add Non-Solo label if IsSolo is false
+            if (sub.IsSolo === false) metrics.push('Non-Solo');
+            console.log(sub.IsSolo)
 
             item.innerHTML = `
                 <div class="ranking-number">#${index + 1}</div>
