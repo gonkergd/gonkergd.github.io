@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enjoyment Grabbing for Easy/Medium/Hard Demon Enjoyment List</title>
+    <script src="grabenjoyment.js"></script>
+    <style>
+        .diff-btns button { margin-right: 8px; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <h1>Easy/Medium/Hard Demon Enjoyments Grabber</h1>
+    <h2>Enter your GDDL User ID</h1>
+    <form id="userForm">
+        <input type="text" id="userId" placeholder="User ID" required>
+        <button type="submit">Load</button>
+    </form>
+    <h3>Find your User ID by going to your GDDL profile and taking the last few numbers of the link (example below)</h2>
+    <img src="image.png" alt="Example image" style="max-width: 20%; height: auto;">
+    <hr></hr>
+    <div id="progress"></div>
+    <div class="diff-btns hidden" id="diffBtns">
+        <button type="button" data-diff="Easy">Easy</button>
+        <button type="button" data-diff="Medium">Medium</button>
+        <button type="button" data-diff="Hard">Hard</button>
+    </div>
+    <button id="copyBtn" class="hidden" style="margin: 10px 0;">Copy List to Clipboard</button>
+    <button id="toggleModeBtn" class="hidden" style="margin: 10px 0;">Show Platformers</button>
+    <div id="result"></div>
+
+    <script>
+        let lastCategorized = null;
+        let lastDiff = "Easy";
+        let currentMode = "classics"; // or "platformers"
+        const copyBtn = document.getElementById('copyBtn');
+        const toggleModeBtn = document.getElementById('toggleModeBtn');
+
+        document.getElementById('userForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('diffBtns').classList.add('hidden');
+            copyBtn.classList.add('hidden');
+            toggleModeBtn.classList.add('hidden');
+            document.getElementById('result').innerHTML = "";
+            lastCategorized = null;
+            currentMode = "classics";
+            const userId = document.getElementById('userId').value;
+            if (typeof loadEnjoyment === 'function') {
+                loadEnjoyment(userId, document.getElementById('result'), document.getElementById('progress'), function(categorized) {
+                    lastCategorized = categorized;
+                    document.getElementById('diffBtns').classList.remove('hidden');
+                    copyBtn.classList.remove('hidden');
+                    toggleModeBtn.classList.remove('hidden');
+                    toggleModeBtn.textContent = "Show Platformers";
+                    showDiffList(lastDiff);
+                });
+            } else {
+                document.getElementById('result').textContent = "grabenjoyment.js not loaded or missing loadEnjoyment function.";
+            }
+        });
+
+        function showDiffList(diff) {
+            lastDiff = diff;
+            const resultDiv = document.getElementById('result');
+            if (!lastCategorized || !lastCategorized[currentMode] || !lastCategorized[currentMode][diff] || lastCategorized[currentMode][diff].length === 0) {
+                resultDiv.innerHTML = `<em>No ${diff} demons found.</em>`;
+                return;
+            }
+            let html = `<h3>${currentMode === "classics" ? "Classic" : "Platformer"} ${diff} Demons</h3><ul>`;
+            lastCategorized[currentMode][diff].forEach(line => {
+                html += `<li>${line}</li>`;
+            });
+            html += '</ul>';
+            resultDiv.innerHTML = html;
+        }
+
+        document.querySelectorAll('.diff-btns button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                showDiffList(this.getAttribute('data-diff'));
+            });
+        });
+
+        copyBtn.addEventListener('click', function() {
+            if (!lastCategorized || !lastCategorized[currentMode] || !lastCategorized[currentMode][lastDiff] || lastCategorized[currentMode][lastDiff].length === 0) {
+                navigator.clipboard.writeText('');
+                return;
+            }
+            const text = lastCategorized[currentMode][lastDiff].join('\n');
+            navigator.clipboard.writeText(text).then(() => {
+                copyBtn.textContent = "Copied!";
+                setTimeout(() => {
+                    copyBtn.textContent = "Copy List to Clipboard";
+                }, 1200);
+            });
+        });
+
+        toggleModeBtn.addEventListener('click', function() {
+            if (currentMode === "classics") {
+                currentMode = "platformers";
+                toggleModeBtn.textContent = "Show Classics";
+            } else {
+                currentMode = "classics";
+                toggleModeBtn.textContent = "Show Platformers";
+            }
+            showDiffList(lastDiff);
+        });
+    </script>
+</body>
+</html>
