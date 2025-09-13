@@ -61,6 +61,18 @@ function calculateDifference(userValue, avgValue, stdDev, useSd) {
     return Math.abs(userValue - avgValue);
 }
 
+function calculateDifferenceNoAbs(userValue, avgValue, stdDev, useSd) {
+    if (useSd) {
+        const lowerBound = avgValue - stdDev;
+        const upperBound = avgValue + stdDev;
+        if (userValue >= lowerBound && userValue <= upperBound) {
+            return 0.0;
+        }
+        return userValue < avgValue ? (userValue - lowerBound) : (userValue - upperBound);
+    }
+    return userValue - avgValue;
+}
+
 function rankSubmissions(submissions, config) {
     const ranked = [];
     const metricName = config.metric === 'r' ? 'Rating' : 'Enjoyment';
@@ -88,15 +100,31 @@ function rankSubmissions(submissions, config) {
 
         const diff = calculateDifference(userValue, avgValue, stdDev, config.use_sd);
 
+        // New: Determine overrate/underrate
+        const diffNoAbs = calculateDifferenceNoAbs(userValue, avgValue, stdDev, config.use_sd);
+        const opinionType = diffNoAbs > 0 ? "Overrate" : (diffNoAbs < 0 ? "Underrate" : "Neutral");
+
+        // Handle publisher name and special levels
+        let creatorName = (levelData.Meta.Publisher && levelData.Meta.Publisher.name) ? levelData.Meta.Publisher.name : "-";
+        let levelName = levelData.Meta.Name;
+        if (
+            levelName === "Clubstep" ||
+            levelName === "Theory of Everything 2" ||
+            levelName === "Deadlocked"
+        ) {
+            creatorName = "Robtop";
+        }
+
         if (!config.remove_zero_outliers || diff > config.exclude_count) {
             ranked.push({
-                level_name: levelData.Meta.Name,
-                creator: levelData.Meta.Creator,
+                level_name: levelName,
+                creator: creatorName,
                 user_value: userValue,
                 avg_value: avgValue,
                 std_dev: stdDev,
                 diff: diff,
-                IsSolo: sub.IsSolo // <-- Add this line
+                opinionType: opinionType, // <-- Add this
+                IsSolo: sub.IsSolo
             });
         }
     });
@@ -216,22 +244,32 @@ function displayResults(rankedSubmissions, config) {
     const rankingList = document.getElementById('rankingList');
     const metricName = config.metric === 'r' ? 'rating' : 'enjoyment';
 
+    // New: Get filter value
+    const filter = document.getElementById('opinionFilter') ? document.getElementById('opinionFilter').value : 'all';
+
     rankingList.innerHTML = '';
 
     rankedSubmissions
         .filter(sub => sub != null && sub.user_value != null)
+        // New: Filter by opinionType
+        .filter(sub => {
+            if (filter === 'all') return true;
+            if (filter === 'overrate') return sub.opinionType === 'Overrate';
+            if (filter === 'underrate') return sub.opinionType === 'Underrate';
+            return true;
+        })
         .forEach((sub, index) => {
             const item = document.createElement('div');
             item.className = 'ranking-item';
 
             const metrics = [];
-            if (config.include_diff && sub.diff != null) metrics.push(`${sub.diff.toFixed(2)} AI-Ness`);
+            if (config.include_diff && sub.diff != null) metrics.push(`${sub.diff.toFixed(2)} AI`);
             if (config.include_user_value && sub.user_value != null) metrics.push(`${sub.user_value} your ${metricName}`);
             if (config.include_avg_value && sub.avg_value != null) metrics.push(`${sub.avg_value.toFixed(2)} level ${metricName}`);
             if (config.include_std_dev && sub.std_dev != null) metrics.push(`${sub.std_dev.toFixed(2)} SD`);
-            // Add Non-Solo label if IsSolo is false
             if (sub.IsSolo === false) metrics.push('Non-Solo');
-            console.log(sub.IsSolo)
+            // New: Show Overrate/Underrate
+            metrics.push(sub.opinionType);
 
             item.innerHTML = `
                 <div class="ranking-number">#${index + 1}</div>
