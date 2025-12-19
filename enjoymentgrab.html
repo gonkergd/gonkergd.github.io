@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Enjoyment Grabbing for Easy/Medium/Hard Demon Enjoyment List</title>
+    <title>Enjoyment Grabbing for Easy/Medium/Hard/Insane/Extreme Demon Enjoyment List</title>
     <script src="grabenjoyment.js"></script>
     <style>
         .diff-btns button { margin-right: 8px; }
@@ -10,13 +10,13 @@
     </style>
 </head>
 <body>
-    <h1>Easy/Medium/Hard Demon Enjoyments Grabber</h1>
-    <h2>Enter your GDDL User ID</h1>
+    <h1>Easy/Medium/Hard/Insane/Extreme Demon Enjoyments Grabber</h1>
+    <h2>Enter your GDDL User ID</h2>
     <form id="userForm">
         <input type="text" id="userId" placeholder="User ID" required>
         <button type="submit">Load</button>
     </form>
-    <h3>Find your User ID by going to your GDDL profile and taking the last few numbers of the link (example below)</h2>
+    <h3>Find your User ID by going to your GDDL profile and taking the last few numbers of the link (example below)</h3>
     <img src="image.png" alt="Example image" style="max-width: 20%; height: auto;">
     <hr></hr>
     <div id="progress"></div>
@@ -24,6 +24,8 @@
         <button type="button" data-diff="Easy">Easy</button>
         <button type="button" data-diff="Medium">Medium</button>
         <button type="button" data-diff="Hard">Hard</button>
+        <button type="button" data-diff="Insane">Insane</button>
+        <button type="button" data-diff="Extreme">Extreme</button>
     </div>
     <button id="copyBtn" class="hidden" style="margin: 10px 0;">Copy List to Clipboard</button>
     <button id="toggleModeBtn" class="hidden" style="margin: 10px 0;">Show Platformers</button>

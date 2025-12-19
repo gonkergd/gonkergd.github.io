@@ -1,4 +1,4 @@
-const DIFFICULTY_MAPS = ['Easy', 'Medium', 'Hard', 'Insane'];
+const DIFFICULTY_MAPS = ['Easy', 'Medium', 'Hard', 'Insane', 'Extreme'];
 
 async function loadEnjoyment(userId, resultDiv, progressDiv, onLoaded) {
     resultDiv.textContent = "Loading...";
@@ -65,7 +65,7 @@ async function fetchAllSubmissions(userId, progressDiv) {
 }
 
 function categorize(subs) {
-    const map = { Easy: [], Medium: [], Hard: [], Insane: [] };
+    const map = { Easy: [], Medium: [], Hard: [], Insane: [], Extreme: [] };
     for (const sub of subs) {
         const enjoyment = sub.Enjoyment;
         if (enjoyment == null || !sub.Level || !sub.Level.Meta) continue;
