@@ -59,7 +59,7 @@ a {
     color: rgb(255, 139, 255);
 }
 
-.right-things{
+.right-things {
     display:flex;
     width: auto;
     justify-content: center;
@@ -67,7 +67,7 @@ a {
     margin-right: auto;
 }
 .right-things img {
-    border: 8px solid rgb(255, 139, 255);
+    border: 8px solid rgb(152, 229, 255);
     border-radius: 8px;
 }
 
