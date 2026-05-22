@@ -116,7 +116,7 @@ a {
 
 .quote {
     display: flex;
-    background-color: rgb(152, 229, 255);
+    background-color: rgb(255, 139, 255);
     flex-direction: column;
     justify-content: center;
     padding: 64px 48px 64px 48px;
@@ -139,13 +139,13 @@ a {
     display: flex;
     align-items: center;
     padding: 32px 64px 32px 64px;
-    background-color: rgb(255, 139, 255);
+    background-color: rgb(152, 229, 255);
 }
 
 .why-is-there-a-box-at-the-center-bro {
     display: flex;
     flex-direction: row;
-    color: rgb(255, 139, 255);
+    color: rgb(152, 229, 255);
     background-color: white;
     padding: 32px;
     flex-grow: 1;
@@ -174,7 +174,7 @@ a {
     margin-bottom: auto;
     margin-right: 60px;
     background-color: white;
-    border: 2px solid rgb(255, 139, 255);
+    border: 2px solid rgb(152, 229, 255);
     padding: 8px 16px 8px 16px;
     border-radius: 8px;
 }
