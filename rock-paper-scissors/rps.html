@@ -4,77 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script>
-        function getComputerChoice() {
-            let choice = Math.random() * 3;
-            if (choice < 1) return "rock";
-            if (choice < 2) return "paper";
-            return "scissors";
-        }
-        function getHumanChoice() {
-            return prompt("pick.", "lose");
-        }
-        function playGame() {
-            let humanScore = 0;
-            let computerScore = 0;
-            function playRound(humanChoice, computerChoice){
-                if (humanChoice == "lose") {console.log("You lose!"); return "Player rage quit";}
-                humanChoice = humanChoice.toLowerCase();
-                if (humanChoice == computerChoice) console.log("Tie!")
-                else if (humanChoice == "rock"){
-                    if (computerChoice == "paper") {
-                        computerScore++;
-                        console.log("computer wins");
-                        return;
-                    }
-                    humanScore++;
-                    console.log("human wins");
-                }
-                else if (humanChoice == "paper"){
-                    if (computerChoice == "scissors") {
-                        computerScore++;
-                        console.log("computer wins");
-                        return;
-                    }
-                    humanScore++;
-                    console.log("human wins");
-                }
-                else if (humanChoice == "scissors"){
-                    if (computerChoice == "rock") {
-                        computerScore++;
-                        console.log("computer wins");
-                        return;
-                    }
-                    humanScore++;
-                    console.log("human wins");
-                } 
-                else {
-                    return "Human is a dumbass";
-                }
-            }
-            let qualified = true;
-            for (let i = 0; i < 5; i++){
-                let test = playRound(getHumanChoice(), getComputerChoice());
-                if (test == "Player rage quit") {
-                    qualified = false;
-                    humanScore = computerScore;
-                    break;
-                }
-                if (test == "Human is a dumbass"){
-                    qualified = false;
-                    humanScore = computerScore;
-                    console.log("???????");
-                    break;
-                }
-            }
-            if (computerScore > humanScore) console.log("Game over, Computer wins!");
-            else if (humanScore > computerScore) console.log("Game over, Human wins!");
-            else if (qualified) console.log("Game over, Its a tie!");
-        }
-        playGame();
-    </script>
 </head>
-<body>
-    btw im bored so i made it able to check for invalid input for fun
-</body>
+    <body>
+        <button class="rock">Rock</button>
+        <button class="paper">Paper</button>
+        <button class="scissors">Scissors</button>
+        <div class="results">Click one of the buttons to play...</div>
+        <div class="choices">Computer chose: </div>
+        <h1 class="score">0 : 0</h1>
+    </body>
+<script>
+    function getComputerChoice() {
+        let choice = Math.random() * 3;
+        if (choice < 1) return "rock";
+        if (choice < 2) return "paper";
+        return "scissors";
+    }
+    function getHumanChoice() {
+        return prompt("pick.", "lose");
+    }
+    function playGame() {
+        let humanScore = 0;
+        let computerScore = 0;
+        let rock = document.querySelector(".rock");
+        let paper = document.querySelector(".paper");
+        let scissors = document.querySelector(".scissors");
+        let results = document.querySelector(".results");
+        let choices = document.querySelector(".choices")
+        let score = document.querySelector(".score");
+        function playRound(humanChoice, computerChoice) {
+            /* if (humanChoice == "lose") { console.log("You lose!"); return "Player rage quit"; } */
+            choices.textContent = "Computer chose: " + computerChoice;
+            humanChoice = humanChoice.toLowerCase();
+            if (humanChoice == computerChoice) results.textContent = "Tie!";
+            else if (humanChoice == "rock") {
+                if (computerChoice == "paper") {
+                    computerScore++;
+                    results.textContent = "Computer Wins!";
+                } else {
+                    humanScore++;
+                    results.textContent = "Human Wins!";
+                }
+            }
+            else if (humanChoice == "paper") {
+                if (computerChoice == "scissors") {
+                    computerScore++;
+                    results.textContent = "Computer Wins!";
+                } else {
+                    humanScore++;
+                    results.textContent = "Human Wins!";
+                }
+            }
+            else if (humanChoice == "scissors") {
+                if (computerChoice == "rock") {
+                    computerScore++;
+                    results.textContent = "Computer Wins!";
+                } else {
+                    humanScore++;
+                    results.textContent = "Human Wins!";
+                }
+            }
+            /* else {
+                return "Human is a dumbass";
+            } */
+             score.textContent = humanScore + " : " + computerScore;
+        }
+        let qualified = true;
+        rock.addEventListener("click", () => playRound("rock", getComputerChoice()));
+        paper.addEventListener("click", () => playRound("paper", getComputerChoice()));
+        scissors.addEventListener("click", () => playRound("scissors", getComputerChoice()));
+        /* if (computerScore > humanScore) console.log("Game over, Computer wins!");
+        else if (humanScore > computerScore) console.log("Game over, Human wins!");
+        else if (qualified) console.log("Game over, Its a tie!"); */
+    }
+    playGame();
+</script>
 </html>
