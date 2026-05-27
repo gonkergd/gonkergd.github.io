@@ -7,9 +7,8 @@ function generateGrid(length){
     for (let i = 0; i < length; i++){
         for (let j = 0; j < length; j++){
             let content = document.createElement("div");
-            content.style.width = Math.trunc(800 / length) + "px";
-            content.style.height = Math.trunc(800 / length) + "px";
-            content.style.border = "0px";
+            content.style.width = (800 / length) + "px";
+            content.style.height = (800 / length) + "px";
             let a = Math.random() * 256;
             let b = Math.random() * 256;
             let c = Math.random() * 256;
