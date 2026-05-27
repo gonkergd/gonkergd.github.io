@@ -127,7 +127,7 @@ function operandNumber(text){
         if (backspaceTrial >= -1) {
             numberPointer--;
             if (numberPointer == -1) numberPointer = 13;
-            console.log(numberPointer);
+            // console.log(numberPointer);
             if (numberPointer < 7) {
                 operand1[numberPointer] = 0;
             } else {
