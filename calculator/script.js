@@ -75,9 +75,9 @@ function operate(o1, o, o2) {
     if (o2[6] === "π") pi2 = true;
     // analyze();
     if (e) o1.splice(o1.length - 1, 1);
-    if (e2) o2.splice(o1.length - 1, 1);
+    if (e2) o2.splice(o2.length - 1, 1);
     if (pi) o1.splice(o1.length - 1, 1);
-    if (pi2) o2.splice(o1.length - 1, 1);
+    if (pi2) o2.splice(o2.length - 1, 1);
     if (o1.length < 7) o1.unshift("0");
     if (o2.length < 7) o2.unshift("0");
     console.log(o1 + " " + o2);
@@ -117,6 +117,7 @@ let tooLate = false;
 let permLock = false;
 let backspaceTrial = 30;
 function operandNumber(text){
+    if (text === "p") text = "π";
     if (text === "CE") {
         clear();
         operator = " : ";
@@ -125,6 +126,8 @@ function operandNumber(text){
         backspaceTrial--;
         if (backspaceTrial >= -1) {
             numberPointer--;
+            if (numberPointer == -1) numberPointer = 13;
+            console.log(numberPointer);
             if (numberPointer < 7) {
                 operand1[numberPointer] = 0;
             } else {
@@ -133,7 +136,6 @@ function operandNumber(text){
         } else {
             alert("Backspace usage expired!");
         }
-        if (numberPointer < 0) numberPointer = 14;
     } else {
         if (text === "."){
             if (numberPointer < 7){
@@ -211,8 +213,8 @@ operations.forEach(button => {
     })
 })
 window.addEventListener("keydown", (e) => {
-    numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."];
-    operators = ["+", "-", "*", "x", "/", ":"];
+    numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "e", "p"];
+    operators = ["+", "-", "*", "x", "/", ":", "="];
     if (numbers.indexOf(e.key) != -1) {
         operandNumber(e.key);
     } else if (operators.indexOf(e.key.toLowerCase()) != -1){
@@ -221,6 +223,8 @@ window.addEventListener("keydown", (e) => {
         operandNumber("<");
     } else if (e.key.toLowerCase() === "c") {
         operandNumber("CE");
+    } else if (e.key === "Enter") {
+        changeOperator("=");
     }
 })
 
