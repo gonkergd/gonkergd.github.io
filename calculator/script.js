@@ -1,3 +1,7 @@
+console.log("You can actually get the premium version! Figure out how yourself though...")
+function updateDisplay() {
+    display.textContent = operand1.join("") + operator + operand2.join("");
+}
 function add(a, b) {
     let result = Math.trunc(a + b);
     while (("" + result).length > 7) {
@@ -30,13 +34,14 @@ function divide(a, b) {
     console.log("Result of " + a + " / " + b + ": " + result);
     return "0".repeat(7 - ("" + result).length) + result;
 }
-function divideByZero() {
+function divideByZero(text = "idot") {
     let entireCalc = document.querySelector("body");
     let div = document.createElement("img");
     let div2 = document.createElement("h1");
+    tooLate = true;
     div.src = "explosion.avif";
     div.height = "333.5";
-    div2.textContent = "idot";
+    div2.textContent = text;
     entireCalc.replaceChildren();
     entireCalc.appendChild(div);
     entireCalc.appendChild(div2);
@@ -47,9 +52,15 @@ function expire() {
     div.textContent = "Trial Expired";
     entireCalc.replaceChildren();
     entireCalc.appendChild(div);
+    permLock = true;
 }
 function throwError(text){
     alert("Error: " + text);
+}
+function clear(){
+    operand1 = ["0", "0", "0", "0", "0", "0", "0"];
+    operand2 = ["0", "0", "0", "0", "0", "0", "0"];
+    updateDisplay();
 }
 function operate(o1, o, o2) {
     let sqrt = false; let sqrt2 = false;
@@ -128,29 +139,65 @@ let operand2 = ["0", "0", "0", "0", "0", "0", "0"];
 let numberPointer = 0;
 let display = document.querySelector(".numbers");
 let trial = 0;
+let tooLate = false;
+let permLock = false;
+let backspaceTrial = 30;
 function operandNumber(text){
-    if (numberPointer < 7) {
-        operand1[numberPointer] = text;
+    if (text === "CE") {
+        clear();
+        operator = " : ";
+        numberPointer = 0;
+    } else if (text === "<") {
+        backspaceTrial--;
+        if (backspaceTrial >= -1) {
+            numberPointer--;
+            if (numberPointer < 7) {
+                operand1[numberPointer] = 0;
+            } else {
+                operand2[numberPointer - 7] = 0;
+            }
+        } else {
+            alert("Backspace usage expired!");
+        }
+        if (numberPointer < 0) numberPointer = 14;
     } else {
-        operand2[numberPointer - 7] = text;
+        if (numberPointer < 7) {
+            operand1[numberPointer] = text;
+        } else {
+            operand2[numberPointer - 7] = text;
+        }
+        numberPointer++;
+        if (numberPointer == 14) numberPointer = 0;
     }
-    numberPointer++;
-    if (numberPointer == 14) numberPointer = 0;
-    display.textContent = operand1.join("") + operator + operand2.join("");
+    updateDisplay();
 }
 function changeOperator(text){
     if (text === "=") {
         trial++;
-        if (trial == 10) {
+        if (trial == 5) {
             expire();
         } else {
             operand2 = operate(operand1, operator, operand2).split("");
-            display.textContent = operand1.join("") + operator + operand2.join("");
+            updateDisplay();
         }
         return;
     }
     operator = " " + text + " ";
-    display.textContent = operand1.join("") + operator + operand2.join("");
+    updateDisplay();
+}
+function buyPremium(card = {name: "invalid"}){
+    if (card.name === "John Buckford" && !permLock) {
+        trial = 6;
+        backspaceTrial = Number.MAX_VALUE;
+        console.log("Premium unlocked!");
+        if (tooLate) {
+            console.log("Enter your card info again.")
+            location.reload();
+        }
+    } else {
+        divideByZero("nice try");
+        permLock = true;
+    }
 }
 const buttons = document.querySelectorAll(".set button");
 buttons.forEach(button => {
@@ -164,5 +211,14 @@ operations.forEach(button => {
         changeOperator(button.textContent);
     })
 })
-
+window.addEventListener("keydown", (e) => {
+    allowedKeys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "."];
+    if (allowedKeys.indexOf(e.key) != -1) {
+        operandNumber(e.key);
+    } else if (e.key === "Backspace") {
+        operandNumber("<");
+    } else if (e.key === "C") {
+        operandNumber("CE");
+    }
+})
 

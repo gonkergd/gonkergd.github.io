@@ -33,7 +33,7 @@ body {
 .keys {
     display: flex;
     width: 300px;
-    height: 250px;
+    height: 310px;
     box-sizing: border-box;
 }
 
@@ -70,8 +70,8 @@ body {
 }
 
 button {
-    height: 30px;
-    width: 30px;
+    height: 40px;
+    width: 40px;
     border-radius: 50%;
     border: none;
     font-size: 20px;
