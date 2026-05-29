@@ -75,6 +75,7 @@ button {
     border-radius: 50%;
     border: none;
     font-size: 20px;
+    color: black;
 }
 
 .set button {
