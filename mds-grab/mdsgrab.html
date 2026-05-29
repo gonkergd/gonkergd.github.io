@@ -39,7 +39,7 @@
         <button type="button" data-diff="Relentless">Relentless</button>
     </div>
     <button id="copyBtn" class="hidden" style="margin: 10px 0;">Copy List to Clipboard</button>
-    <button id="toggleModeBtn" class="hidden" style="margin: 10px 0;">Show Platformers</button>
+    <button id="toggleModeBtn" class="hidden" style="margin: 10px 0;">Show Platformers (Doesn't work, its just here for emotional support)</button>
     <div id="result"></div>
 
     <script>
@@ -79,7 +79,7 @@
                 resultDiv.innerHTML = `<em>No ${diff} demons found.</em>`;
                 return;
             }
-            let html = `<h3>${currentMode === "classics" ? "Classic" : "Platformer"} ${diff} Demons</h3><ul>`;
+            let html = `<h3>${currentMode === "classics" ? "Classic" : "Platformer"} ${diff} Tiers</h3><ul>`;
             lastCategorized[currentMode][diff].forEach(line => {
                 html += `<li>${line}</li>`;
             });
