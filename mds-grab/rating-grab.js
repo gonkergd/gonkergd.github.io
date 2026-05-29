@@ -1,10 +1,11 @@
-const DIFFICULTY_MAPS = ['Easy', 'Medium', 'Hard', 'Insane', 'Extreme'];
+const DIFFICULTY_MAPS = ['Demote', 'Easy', 'Medium', 'Hard', 'Insane', 'Extreme', 'Remorseless', 'Relentless'];
 
 async function loadEnjoyment(userId, resultDiv, progressDiv, onLoaded) {
     resultDiv.textContent = "Loading...";
     if (progressDiv) progressDiv.textContent = "";
     try {
         const allSubs = await fetchAllSubmissions(userId, progressDiv);
+        console.log(allSubs);
         // Split into classics and platformers
         const classics = allSubs.filter(sub => sub.Level && sub.Level.Rating !== null);
         const platformers = allSubs.filter(sub => sub.Level && sub.Level.Rating === null);
