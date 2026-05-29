@@ -45,7 +45,7 @@ async function loadEnjoyment(userId, resultDiv, progressDiv, onLoaded) {
 }
 
 async function fetchAllSubmissions(userId, progressDiv) {
-    const API_URL = `https://gdladder.com/api/user/${userId}/submissions?limit=25&page=`;
+    const API_URL = `https://corsproxy.io/?https://gdladder.com/api/user/${userId}/submissions?limit=25&page=`;
     // Fetch first page to get total count
     const firstPage = await fetch(API_URL + '0').then(res => res.json());
     const { total, limit } = firstPage;
