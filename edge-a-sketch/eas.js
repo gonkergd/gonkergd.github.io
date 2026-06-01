@@ -12,7 +12,7 @@ function generateGrid(length){
             let a = Math.random() * 256;
             let b = Math.random() * 256;
             let c = Math.random() * 256;
-            if (landmine && !(pipeBombAtX == i && pipeBombAtY == j)){
+            if (!landmine || !(pipeBombAtX == i && pipeBombAtY == j)){
             content.addEventListener("mouseover", () => 
                 {
                     if (content.style.backgroundColor == ""){
