@@ -1,0 +1,8 @@
+@font-face {
+    font-family: comic-sans;
+    src: url("fonts/comic-sans.woff2");
+}
+
+.logo {
+    font-family: comic-sans, sans-serif;
+}
