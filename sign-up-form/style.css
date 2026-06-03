@@ -52,7 +52,11 @@ a:link, a:visited {
     color: white;
 }
 
-a:hover {
+a.login:link, a.login:visited {
+    color: rgb(2, 84, 2);
+}
+
+a:hover, a.login:hover {
     color: skyblue;
 }
 
@@ -143,4 +147,18 @@ input {
 
 input:focus {
     border-color: lightskyblue;
+}
+
+button {
+    padding: 12px 32px 12px 32px;
+    border: none;
+    background-color: rgb(2, 84, 2);
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    box-shadow: 3px 3px 0 lightgrey;
+}
+
+.login {
+    margin-top: 16px;
 }
