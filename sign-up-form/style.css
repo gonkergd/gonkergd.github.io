@@ -3,23 +3,57 @@
     src: url("fonts/comic-sans.woff2");
 }
 
+@font-face {
+    font-family: inter;
+    src: url("fonts/Inter-Regular.woff2");
+}
+
+* {
+    font-family: inter;
+}
+
+body {
+    display: flex;
+    margin: 0;
+}
+
 .left {
     background: no-repeat url("hyper-ascent.jpg");
-    filter: brightness(50%);
     flex-grow: 2;
-    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     height: 100vh;
 }
 
 .logo {
+    margin-top: 30vh;
+    font-size: 4rem;
+    color: white;
+    background-color: rgba(59, 59, 59, 0.8);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.logo p {
+    margin: 0px;
     font-family: comic-sans, sans-serif;
-    filter: brightness(100%);
 }
 
 .footer {
     margin-top: auto;
+    align-self: center;
+    color: white;
+    margin-bottom: 8px;
+}
+
+a:link, a:visited {
+    color: white;
+}
+
+a:hover {
+    color: skyblue;
 }
 
 .right {
@@ -28,21 +62,85 @@
     flex-direction: column;
 }
 
-.emphasis {
+em {
     color: red;
+    white-space: pre;
 }
 
-body {
-    display: flex;
-    margin: 0;
-}
 
 label {
     display: inline-block;
     width: 100%;
+    font-size: 0.75rem;
+    color: rgb(91, 91, 91);
 }
 
 .items {
     display: flex;
     flex-direction: row;
+    margin-left: 4px;
+    gap: 64px;
+}
+
+.item {
+    width: 200px;
+}
+
+.context {
+    flex-grow: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.form {
+    flex-grow: 0.3;
+    display: flex;
+    box-shadow: 0 5px 5px grey;
+    z-index: 1;
+}
+
+form {
+    flex-grow: 1;
+    display: flex;
+}
+
+.create-account {
+    flex-grow: 3;
+    padding-top: 32px;
+    padding-left: 32px;
+}
+
+fieldset {
+    flex-grow: 1;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+legend {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+input {
+    border: 1px solid lightgrey;
+    border-radius: 0.25rem;
+    height: 1.5rem;
+}
+
+.context, .create-account {
+    background-color: rgb(238, 238, 238);
+}
+
+:user-invalid {
+    border-color: red;
+}
+
+input:focus {
+    border-color: lightskyblue;
 }
