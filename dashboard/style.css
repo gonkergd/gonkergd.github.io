@@ -1,0 +1,279 @@
+@font-face {
+    font-family: roboto-mono;
+    src: url("fonts/roboto-mono.ttf");
+}
+
+@font-face {
+    font-family: papyrus;
+    src: url("fonts/papyrus.ttf");
+}
+
+* {
+    font-family: roboto-mono, sans-serif;
+}
+
+body {
+    margin: 0;
+}
+.container {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: minmax(0, 1.3fr) 5fr;
+    height: 100vh;
+    width: 100vw;
+}
+
+.sidebar {
+    background-color: rgb(0, 140, 255);
+    color: white;
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    padding: 16px 0 0 16px;
+    font-weight: bold;
+}
+
+.header {
+    box-shadow: 0 2px 5px grey;
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    z-index: 1;
+}
+
+.content {
+    background-color: rgb(195, 207, 211);
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+}
+
+.item {
+    margin-bottom: 12px;
+}
+
+.header {
+    display: grid;
+    grid-template-rows: 1fr 2fr;
+}
+
+.selfbar {
+    margin: 12px 12px 12px 24px;
+    display: flex;
+    grid-row: 1 / 2;
+    justify-content: space-between;
+}
+
+.bar {
+    width: 750px;
+    height: 20px;
+    background-color: rgb(201, 213, 217);
+    border-radius: 10px;
+    margin-left: 12px;
+}
+
+.leftbar {
+    display: flex;
+    align-items: center;
+}
+
+.editprofile {
+    grid-row: 2 / 3;
+}
+
+.profileinfo {
+    display: flex;
+    align-items: center;
+}
+
+.pitem {
+    margin: 8px;
+}
+
+.editprofile {
+    margin: 0px 12px 0px 12px;
+    display: flex;
+}
+
+.intro {
+    display: grid;
+    grid-template-columns: 72px 4fr;
+    grid-template-rows: 0.5fr 1fr;
+}
+
+.intro .pitem {
+    grid-row: 1 / 3;
+    grid-column: 1 / 2;;
+}
+
+.hi {
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+}
+
+.name {
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+    font-size: 24px;
+}
+
+.options {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    margin-right: 32px;
+    align-items: center;
+    gap: 24px;
+}
+
+.button {
+    background-color: rgb(0, 140, 255);
+    color: white;
+    padding: 8px 16px 8px 16px;
+    border-radius: 32px;
+}
+
+.name {
+    font-family: papyrus;
+    font-weight: bolder;
+}
+
+/* debugging purposes */
+
+/* .intro > * {
+    border: 2px solid red;
+} */ 
+
+.content {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr min(280px, 0.4fr);
+}
+
+.your-projects {
+    grid-row: 1 / 3;
+    grid-column: 1 / 2;
+}
+
+.announcements {
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+    padding-right: 16px;
+}
+
+.trending {
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+}
+
+.your-projects {
+    grid-template-columns: 1fr 20fr;
+    margin-left: 12px;
+    margin-right: 16px;
+}
+
+/* .card > * {
+    border: 2px solid red;
+} */
+
+.topic > p {
+    margin: 8px 0 8px 0;
+    font-weight: bold;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.card {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr;
+    grid-template-rows: 1fr 3fr 1.5fr;
+    background-color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    height: 150px;
+    border-left: 8px solid orange;
+}
+
+.card-header {
+    grid-row: 1 / 2;
+    grid-column: 1 / 3;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.card-contents {
+    grid-row: 2 / 3;
+    grid-column: 1 / 3;
+}
+
+.empty-space {
+    grid-row: 3 / 4;
+    grid-column: 1 / 2;
+}
+
+.details {
+    background-color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+.line-above > .ann-title {
+    padding-top: 8px;
+}
+
+.ann-title {
+    font-weight: bold;
+}
+
+.ann-text {
+    padding-bottom: 8px;
+    color: grey;
+}
+
+.announcement {
+    max-width: 300px;
+}
+
+.line-above {
+    border-top: 1px solid grey;
+}
+
+.trending {
+    padding-right: 16px;
+}
+
+.trending .details {
+    display: grid;
+    grid-template-rows: repeat(4, auto);
+    box-sizing: border-box;
+    gap: 16px;
+}
+
+.user {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.user img {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.user .user-tag {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+}
+
+.user .user-desc {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+}
