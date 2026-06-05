@@ -47,6 +47,14 @@ body {
 
 .item {
     margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.item > svg {
+    fill: white;
+    width: 32px;
 }
 
 .header {
@@ -135,6 +143,9 @@ body {
     font-weight: bolder;
 }
 
+.toc {
+    margin-top: 48px;
+}
 /* debugging purposes */
 
 /* .intro > * {
@@ -276,4 +287,14 @@ body {
 .user .user-desc {
     grid-column: 2 / 3;
     grid-row: 2 / 3;
+}
+
+.card-interactions {
+    display: flex;
+    justify-content: space-around;
+}
+
+.card-interactions > img {
+    width: 24px;
+    height: 24px;
 }
