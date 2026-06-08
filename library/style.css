@@ -1,0 +1,11 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+* {
+    -webkit-text-stroke: 1px white;
+    color: black;
+    font-weight: bold;
+    font-family: sans-serif;
+}
