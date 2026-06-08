@@ -49,7 +49,7 @@ let game = (function (inputAsker) {
         let winner = " ";
         gameBoard = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
         for (let i = 0; i < 9; i++) {
-            playerTurn(inputAsker());
+            playerTurn(inputAsker.getInput());
             console.log(toString());
             winner = determineWinner();
             console.log(winner);
@@ -67,9 +67,25 @@ let game = (function (inputAsker) {
         gameBoard[3] + "|" + gameBoard[4] + "|" + gameBoard[5] + "\n" + 
         gameBoard[6] + "|" + gameBoard[7] + "|" + gameBoard[8];
     };
-    return {playGame};
+    let getAvailableGrids = () => {
+        let emptyGrids = [];
+        for (let i = 0; i < 9; i++) {
+            if (gameBoard[i] === " ") emptyGrids.push(i);
+        }
+        return emptyGrids;
+    }
+    return {playGame, getAvailableGrids};
 })();
 let userInterface = (function () {
     let playButton = document.querySelector("button");
+    let grid0 = document.querySelector("#zero");
+    let grid1 = document.querySelector("#one");
+    let grid2 = document.querySelector("#two");
+    let grid3 = document.querySelector("#three");
+    let grid4 = document.querySelector("#four");
+    let grid5 = document.querySelector("#five");
+    let grid6 = document.querySelector("#six");
+    let grid7 = document.querySelector("#seven");
+    let grid8 = document.querySelector("#eight"); /* best code ever? */
 })();
 
