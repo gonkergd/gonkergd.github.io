@@ -7,14 +7,15 @@ function Book(title, author, pages, read){
     this.pages = pages;
     this.read = read;
     this.id = crypto.randomUUID();
-    this.info = function() {
-        let first = this.title + " by " + this.author + ", " + this.pages + " pages, ";
-        if (!this.read){
-            return first + "not read yet";
-        }
-        return first + "book read";
-    };
 }
+
+Book.prototype.info = function () {
+    let first = this.title + " by " + this.author + ", " + this.pages + " pages, ";
+    if (!this.read) {
+        return first + "not read yet";
+    }
+    return first + "book read";
+};
 
 Book.prototype.readTrigger = function () {
     this.read = !this.read;
