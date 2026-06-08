@@ -1,4 +1,4 @@
-let game = (function (inputAsker) {
+let game = (function () {
     let gameBoard = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
     let playerTurn = (place) => {
         if (gameBoard[place] === " ") {
@@ -13,10 +13,9 @@ let game = (function (inputAsker) {
             let place = Math.floor(Math.random() * 9);
             if (gameBoard[place] === " ") {
                 gameBoard[place] = "O";
-                break;
+                return place;
             }
         }
-        return 1;
     };
     let determineWinner = () => {
         if (gameBoard[0] != " " && gameBoard[0] === gameBoard[4] && gameBoard[4] === gameBoard[8]) { // diagonal "\"
@@ -45,22 +44,21 @@ let game = (function (inputAsker) {
         }
         return " ";
     }; /* awesome code i know */
-    let playGame = () => {
+    let playGame = (place) => {
         let winner = " ";
         gameBoard = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
-        for (let i = 0; i < 9; i++) {
-            playerTurn(inputAsker.getInput());
-            console.log(toString());
-            winner = determineWinner();
-            console.log(winner);
-            if (winner === "X") return "Player";
-            computerTurn();
-            winner = determineWinner();
-            console.log(toString());
-            console.log(winner);
-            if (winner === "O") return "Computer";
-        }
-        return "Draw";
+        // player turn
+        playerTurn(place);
+        console.log(toString());
+        winner = determineWinner();
+        console.log(winner);
+        if (winner === "X") return "Player";
+        // computer turn
+        computerTurn();
+        winner = determineWinner();
+        console.log(toString());
+        console.log(winner);
+        if (winner === "O") return "Computer";
     };
     let toString = () => {
         return gameBoard[0] + "|" + gameBoard[1] + "|" + gameBoard[2] + "\n" + 
@@ -76,7 +74,7 @@ let game = (function (inputAsker) {
     }
     return {playGame, getAvailableGrids};
 })();
-let userInterface = (function () {
+let userInterface = function (game) {
     let playButton = document.querySelector("button");
     let grid0 = document.querySelector("#zero");
     let grid1 = document.querySelector("#one");
@@ -87,5 +85,18 @@ let userInterface = (function () {
     let grid6 = document.querySelector("#six");
     let grid7 = document.querySelector("#seven");
     let grid8 = document.querySelector("#eight"); /* best code ever? */
-})();
-
+    let board = [grid0, grid1, grid2, grid3, grid4, grid5, grid6, grid7, grid8];
+    let play = () => {
+        let number = 0;
+        let emptyGrids = game.getAvailableGrids();
+        setInterval(() => {
+            board[number].textContent = "";
+            number = emptyGrids[Math.floor(Math.random() * emptyGrids.length)];
+            board[number].textContent = "X";
+        }, 200);
+    };
+    return { play };
+};
+alert("hi!");
+let interface = userInterface(game);
+interface.play();
