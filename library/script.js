@@ -46,7 +46,8 @@ newBook.addEventListener("submit", (e) => {
     formData.get("read"));
     bookDiv.textContent = bookObject.info();
     bookDiv.style.backgroundColor = "rgb(" + Math.random() * 255 + ", " + Math.random() * 255 + ", " + Math.random() * 255 + ")";
-    bookDiv.style.width = "fit-content";
+    bookDiv.style.minWidth = "50vw";
+    bookDiv.style.width = "max-content"; 
     bookDiv.style.padding = "8px";
     bookDiv.setAttribute("data-uuid", bookObject.id);
     let destroyerButton = document.createElement("button");
