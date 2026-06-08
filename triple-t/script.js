@@ -1,4 +1,4 @@
-let game = (function () {
+let game = (function (inputAsker) {
     let gameBoard = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
     let playerTurn = (place) => {
         if (gameBoard[place] === " ") {
@@ -49,7 +49,7 @@ let game = (function () {
         let winner = " ";
         gameBoard = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
         for (let i = 0; i < 9; i++) {
-            playerTurn(prompt("Where"));
+            playerTurn(inputAsker());
             console.log(toString());
             winner = determineWinner();
             console.log(winner);
@@ -69,6 +69,7 @@ let game = (function () {
     };
     return {playGame};
 })();
+let userInterface = (function () {
+    let playButton = document.querySelector("button");
+})();
 
-let newGame = game;
-console.log(newGame.playGame());
