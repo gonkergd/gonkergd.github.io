@@ -138,6 +138,7 @@ let userInterface = function (game) {
     let number = 0;
     let gameContinuing = true;
     let touched = false;
+    let name = "ffteqewewirweiwerierw";
     playButton.addEventListener("click", () => {
         touched = true;
     });
@@ -148,6 +149,12 @@ let userInterface = function (game) {
         play();
         body.appendChild(playButton);
         body.removeChild(restart);
+    });
+    let form = document.querySelector("form");
+    form.addEventListener('submit', (e) => { 
+        e.preventDefault();
+        name = (new FormData(event.target)).get("name");
+        body.removeChild(form);
     });
     /* 
         Clears the board.
@@ -193,7 +200,7 @@ let userInterface = function (game) {
                 emptyGrids.splice(emptyGrids.indexOf(number), 1);
                 let compNum = game.playGame(number);
                 if (compNum === "Player Wins") {
-                    header.textContent = "You asserted your dominance. You are a sigma.";
+                    header.textContent = "You asserted your dominance. You are a sigma, " + name + ".";
                     scoreUpdate(1);
                     body.removeChild(playButton);
                     body.appendChild(restart);
