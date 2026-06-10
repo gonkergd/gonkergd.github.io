@@ -123,6 +123,11 @@ let userInterface = function (game) {
     let grid8 = document.querySelector("#eight"); /* best code ever? */
     let board = [grid0, grid1, grid2, grid3, grid4, grid5, grid6, grid7, grid8];
     let emptyGrids = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    let number = 0;
+    let touched = false;
+    playButton.addEventListener("click", () => {
+        touched = true;
+    });
     /* 
         Clears the board.
     */
@@ -138,52 +143,40 @@ let userInterface = function (game) {
         Initializes a game of tic-tac-toe on the website.
     */
     let play = () => {
-        let number = 0;
-        let touched = false;
-        playButton.addEventListener("click", () => {
-            // let collectedNumber = number; // prevent async bugs
-            // emptyGrids.splice(collectedNumber, 1);
-            // let compNum = game.playGame(collectedNumber);
-            // emptyGrids.splice(compNum, 1);
-            // board[collectedNumber].textContent = "X";
-            // board[compNum].textContent = "O"; (deprecated due to breaking asynchronization)
-            touched = true;
-        });
         // loop X refreshes
-        setInterval(() => {
-            if (!touched) {
-                if (board[number].textContent != "O") {
-                    board[number].textContent = "";
-                }
-                number = emptyGrids[Math.floor(Math.random() * emptyGrids.length)];
-                // console.log(number);
-                // console.log(board[number]);
-                board[number].textContent = "X";
+        if (!touched) {
+            if (board[number].textContent != "O") {
+                board[number].textContent = "";
             }
-            else {
-                body.removeChild(playButton);
-                board[number].textContent = "X";
-                board[number].style.color = "red";
-                emptyGrids.splice(emptyGrids.indexOf(number), 1);
-                let compNum = game.playGame(number);
-                if (compNum === "Player Wins") {
-                    alert("You asserted your dominance. You are a sigma.");
-                    clear();
-                } else if (compNum === "Computer Wins") {
-                    alert("You have been replaced.");
-                    clear();
-                } else if (compNum === "Tie") {
-                    clear();
-                } else {
-                    number = emptyGrids[Math.floor(Math.random() * emptyGrids.length)]; //refresh number
-                    emptyGrids.splice(emptyGrids.indexOf(compNum), 1);
-                    // console.log(emptyGrids);
-                    board[compNum].textContent = "O";
-                }
-                touched = false;
-                body.appendChild(playButton);
+            number = emptyGrids[Math.floor(Math.random() * emptyGrids.length)];
+            // console.log(number);
+            // console.log(board[number]);
+            board[number].textContent = "X";
+        }
+        else {
+            body.removeChild(playButton);
+            board[number].textContent = "X";
+            board[number].style.color = "red";
+            emptyGrids.splice(emptyGrids.indexOf(number), 1);
+            let compNum = game.playGame(number);
+            if (compNum === "Player Wins") {
+                alert("You asserted your dominance. You are a sigma.");
+                clear();
+            } else if (compNum === "Computer Wins") {
+                alert("You have been replaced.");
+                clear();
+            } else if (compNum === "Tie") {
+                clear();
+            } else {
+                number = emptyGrids[Math.floor(Math.random() * emptyGrids.length)]; //refresh number
+                emptyGrids.splice(emptyGrids.indexOf(compNum), 1);
+                // console.log(emptyGrids);
+                board[compNum].textContent = "O";
             }
-        }, 200);
+            touched = false;
+            body.appendChild(playButton);
+        }
+        setTimeout(play, 200); 
     };
     return { play };
 };
