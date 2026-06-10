@@ -19,6 +19,10 @@ body {
     font-size: 10vw;
 }
 
-.playerTurn {
+button {
     margin-top: 16px;
+}
+
+h1, h2 {
+    margin: 0;
 }
