@@ -68,15 +68,15 @@ let game = (function () {
         playerTurn(place);
         console.log(toString());
         winner = determineWinner();
-        console.log(winner);
-        if (winner === "X") return "Player wins";
+        // console.log(winner);
+        if (winner === "X") return "Player Wins";
         // computer turn
         let n = computerTurn();
         winner = determineWinner();
         console.log(toString());
-        console.log(winner);
-        if (winner === "O") return "Computer wins";
-        if (gameBoard.every((n) => n === " ")) return "Tie";
+        // console.log(winner);
+        if (winner === "O") return "Computer Wins";
+        if (gameBoard.every((n) => n != " ")) return "Tie";
         return n;
     };
     /* 
@@ -110,6 +110,7 @@ let game = (function () {
     Emulates a game of tic-tac-toe on the website.
 */
 let userInterface = function (game) {
+    let body = document.querySelector("body");
     let playButton = document.querySelector("button");
     let grid0 = document.querySelector("#zero");
     let grid1 = document.querySelector("#one");
@@ -121,11 +122,22 @@ let userInterface = function (game) {
     let grid7 = document.querySelector("#seven");
     let grid8 = document.querySelector("#eight"); /* best code ever? */
     let board = [grid0, grid1, grid2, grid3, grid4, grid5, grid6, grid7, grid8];
+    let emptyGrids = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    /* 
+        Clears the board.
+    */
+   let clear = () => {
+       game.reset();
+        emptyGrids = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+       for (let i = 0; i < 9; i++) {
+           board[i].textContent = "";
+           board[i].style.color = "";
+       }
+   }
     /* 
         Initializes a game of tic-tac-toe on the website.
     */
     let play = () => {
-        let emptyGrids = [0, 1, 2, 3, 4, 5, 6, 7, 8];
         let number = 0;
         let touched = false;
         playButton.addEventListener("click", () => {
@@ -137,32 +149,39 @@ let userInterface = function (game) {
             // board[compNum].textContent = "O"; (deprecated due to breaking asynchronization)
             touched = true;
         });
-        // loop Xs
+        // loop X refreshes
         setInterval(() => {
             if (!touched) {
-                board[number].textContent = "";
+                if (board[number].textContent != "O") {
+                    board[number].textContent = "";
+                }
                 number = emptyGrids[Math.floor(Math.random() * emptyGrids.length)];
+                // console.log(number);
+                // console.log(board[number]);
                 board[number].textContent = "X";
             }
             else {
+                body.removeChild(playButton);
                 board[number].textContent = "X";
                 board[number].style.color = "red";
                 emptyGrids.splice(emptyGrids.indexOf(number), 1);
                 let compNum = game.playGame(number);
-                if (compNum == "Win") {
-                    game.reset();
-                    alert("You asserted your dominance. You are a skibidi sigma.");
-                    let emptyGrids = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-                    for (let i = 0; i < 9; i++) {
-                        board[i].textContent = "";
-                        board[i].style.color = "";
-                    }
+                if (compNum === "Player Wins") {
+                    alert("You asserted your dominance. You are a sigma.");
+                    clear();
+                } else if (compNum === "Computer Wins") {
+                    alert("You have been replaced.");
+                    clear();
+                } else if (compNum === "Tie") {
+                    clear();
+                } else {
+                    number = emptyGrids[Math.floor(Math.random() * emptyGrids.length)]; //refresh number
+                    emptyGrids.splice(emptyGrids.indexOf(compNum), 1);
+                    // console.log(emptyGrids);
+                    board[compNum].textContent = "O";
                 }
-                number = emptyGrids[Math.floor(Math.random() * emptyGrids.length)]; //refresh number
-                emptyGrids.splice(emptyGrids.indexOf(compNum), 1);
-                console.log(emptyGrids);
-                board[compNum].textContent = "O";
                 touched = false;
+                body.appendChild(playButton);
             }
         }, 200);
     };
