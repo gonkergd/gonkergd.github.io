@@ -1,25 +1,22 @@
-function Book(title, author, pages, read){
-    if (!new.target) {
-        throw Error("You must use the 'new' operator to call the constructor");
+class Book{
+    constructor(title, author, pages, read){
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+        this.id = crypto.randomUUID();
     }
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
-    this.id = crypto.randomUUID();
+    info() {
+        let first = this.title + " by " + this.author + ", " + this.pages + " pages, ";
+        if (!this.read) {
+            return first + "not read yet";
+        }
+        return first + "book read";
+    }
+    readTrigger() {
+        this.read = !this.read;
+    }
 }
-
-Book.prototype.info = function () {
-    let first = this.title + " by " + this.author + ", " + this.pages + " pages, ";
-    if (!this.read) {
-        return first + "not read yet";
-    }
-    return first + "book read";
-};
-
-Book.prototype.readTrigger = function () {
-    this.read = !this.read;
-};
 
 const lib = [];
 let body = document.querySelector("body");
