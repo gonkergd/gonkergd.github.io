@@ -141,6 +141,7 @@ let userInterface = function (game) {
     let name = "ffteqewewirweiwerierw";
     playButton.addEventListener("click", () => {
         touched = true;
+        body.removeChild(playButton);
     });
     restart.addEventListener("click", () => {
         touched = false;
@@ -153,7 +154,7 @@ let userInterface = function (game) {
     let form = document.querySelector("form");
     form.addEventListener('submit', (e) => { 
         e.preventDefault();
-        name = (new FormData(event.target)).get("name");
+        name = (new FormData(e.target)).get("name");
         body.removeChild(form);
     });
     /* 
@@ -202,19 +203,16 @@ let userInterface = function (game) {
                 if (compNum === "Player Wins") {
                     header.textContent = "You asserted your dominance. You are a sigma, " + name + ".";
                     scoreUpdate(1);
-                    body.removeChild(playButton);
                     body.appendChild(restart);
                     gameContinuing = false;
                 } else if (typeof compNum === "string" && compNum.substring(1) === "Computer Wins") {
                     board[Number(compNum.substring(0,1))].textContent = "O";
                     header.textContent = "You have been replaced.";
                     scoreUpdate(0);
-                    body.removeChild(playButton);
                     body.appendChild(restart);
                     gameContinuing = false;
                 } else if (compNum === "Tie") {
                     header.textContent = "Tie!";
-                    body.removeChild(playButton);
                     body.appendChild(restart);
                     gameContinuing = false;
                 } else {
@@ -225,7 +223,11 @@ let userInterface = function (game) {
                 }
                 touched = false;
             }
-            setTimeout(play, 200); 
+            if (gameContinuing) {
+                body.appendChild(playButton);
+                setTimeout(play, 200); 
+            }
+            
         }
     };
     return { play };
