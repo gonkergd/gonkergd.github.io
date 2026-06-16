@@ -55,7 +55,7 @@ async function fetchAllSubmissions(userId, progressDiv) {
     if (progressDiv) progressDiv.textContent = `1/${totalPages}`;
 
     // Fetch remaining pages if any, with delay for rate limit
-    for (let page = 2; page <= totalPages; page++) {
+    for (let page = 1; page <= totalPages; page++) {
         await new Promise(resolve => setTimeout(resolve, 650)); // 650ms delay between requests
         const pageData = await fetch(API_URL + page).then(res => res.json());
         allSubs = allSubs.concat(pageData.submissions || []);
