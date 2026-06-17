@@ -37,49 +37,59 @@ function bookInfo() {
 
 newBook.addEventListener("submit", (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    let bookDiv = document.createElement("div");
-    let bookObject = new Book(
-        formData.get("title"),
-        formData.get("author"),
-        formData.get("pages"),
-        formData.get("read"),
-    );
-    bookDiv.textContent = bookObject.info();
-    bookDiv.style.backgroundColor =
-        "rgb(" +
-        Math.random() * 255 +
-        ", " +
-        Math.random() * 255 +
-        ", " +
-        Math.random() * 255 +
-        ")";
-    bookDiv.style.minWidth = "50vw";
-    bookDiv.style.width = "max-content";
-    bookDiv.style.padding = "8px";
-    bookDiv.setAttribute("data-uuid", bookObject.id);
-    let destroyerButton = document.createElement("button");
-    destroyerButton.textContent = "Remove";
-    destroyerButton.style.marginLeft = "4px";
-    destroyerButton.addEventListener("click", (e) => {
-        destroyerButton.parentElement.remove();
-    });
-    if (!bookObject.read) {
-        let readButton = document.createElement("button");
-        readButton.textContent = "Mark as Read";
-        readButton.style.marginLeft = "4px";
-        readButton.addEventListener("click", (e) => {
-            bookObject.readTrigger();
-            bookDiv.textContent = bookObject.info();
-            bookDiv.appendChild(destroyerButton);
+    if (
+        checkValidity(titleInput, titleError) &&
+        checkValidity(authorInput, authorError) &&
+        checkValidity(pagesInput, pagesError, true)
+    ) {
+        const formData = new FormData(e.target);
+        let bookDiv = document.createElement("div");
+        let bookObject = new Book(
+            formData.get("title"),
+            formData.get("author"),
+            formData.get("pages"),
+            formData.get("read"),
+        );
+        bookDiv.textContent = bookObject.info();
+        bookDiv.style.backgroundColor =
+            "rgb(" +
+            Math.random() * 255 +
+            ", " +
+            Math.random() * 255 +
+            ", " +
+            Math.random() * 255 +
+            ")";
+        bookDiv.style.minWidth = "50vw";
+        bookDiv.style.width = "max-content";
+        bookDiv.style.padding = "8px";
+        bookDiv.setAttribute("data-uuid", bookObject.id);
+        let destroyerButton = document.createElement("button");
+        destroyerButton.textContent = "Remove";
+        destroyerButton.style.marginLeft = "4px";
+        destroyerButton.addEventListener("click", (e) => {
+            destroyerButton.parentElement.remove();
         });
-        bookDiv.appendChild(readButton);
-        bookDiv.appendChild(destroyerButton);
-    } else {
-        bookDiv.appendChild(destroyerButton);
-    }
+        if (!bookObject.read) {
+            let readButton = document.createElement("button");
+            readButton.textContent = "Mark as Read";
+            readButton.style.marginLeft = "4px";
+            readButton.addEventListener("click", (e) => {
+                bookObject.readTrigger();
+                bookDiv.textContent = bookObject.info();
+                bookDiv.appendChild(destroyerButton);
+            });
+            bookDiv.appendChild(readButton);
+            bookDiv.appendChild(destroyerButton);
+        } else {
+            bookDiv.appendChild(destroyerButton);
+        }
 
-    body.appendChild(bookDiv);
+        body.appendChild(bookDiv);
+    } else {
+        checkValidity(titleInput, titleError);
+        checkValidity(authorInput, authorError);
+        checkValidity(pagesInput, pagesError);
+    }
 });
 
 const titleInput = document.getElementById("title");
@@ -93,12 +103,28 @@ checkError(titleInput, titleError);
 checkError(authorInput, authorError);
 checkError(pagesInput, pagesError);
 
-function checkError(titleInput, titleError) {
-  titleInput.addEventListener("input", (e) => {
-  if (titleInput.validity.valid) {
-    titleError.className = "error-gone";
-  } else {
-    titleError.className = "error";
-  }
-});
+function checkError(titleInput, titleError, numberCheck) {
+    titleInput.addEventListener("blur", () => {
+        titleInput.className = "touched";
+        checkValidity(titleInput, titleError);
+    });
+    titleInput.addEventListener("input", () => {
+        if (titleInput.className === "touched") {
+            checkValidity(titleInput, titleError, numberCheck);
+        }
+    });
+}
+
+function checkValidity(titleInput, titleError, numberCheck) {
+    if (
+        titleInput.value != "" &&
+        (!numberCheck || typeof Number(titleInput) === "number")
+    ) {
+        titleError.className = "error-gone";
+        return true;
+    } else {
+        titleError.className = "error";
+        titleInput.validity.valid = false;
+        return false;
+    }
 }
