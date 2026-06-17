@@ -8,3 +8,12 @@ body {
     font-weight: bold;
     font-family: sans-serif;
 }
+
+.error-gone {
+    display: none;
+}
+
+.error {
+    color: red;
+    -webkit-text-stroke: 0;
+}
